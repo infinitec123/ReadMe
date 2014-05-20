@@ -4,5 +4,11 @@
     <string name="app_name">RemindMe</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Related to Notification -->
+    <string name="notification_title">Make Calendar Entry?</string>
+    
+    <string name="notification_yes">Yes</string>
+    <string name="notification_no">No</string>
 
 </resources>

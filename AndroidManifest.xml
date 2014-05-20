@@ -8,13 +8,18 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="infinitec.eleventh.remindme.MainActivity"
+            android:name="infinitec.eleventh.remindme.activities.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +27,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name="infinitec.eleventh.remindme.sms.SMSReceiver" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        
+        <activity
+            android:name="infinitec.eleventh.remindme.activities.AcceptDetailsForCalendarActivity"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service android:name="infinitec.eleventh.remindme.sms.ProcessSMSTextService"></service>
+        <service android:name="infinitec.eleventh.remindme.action.MakeCalendarEntryService"></service>
     </application>
 
 </manifest>

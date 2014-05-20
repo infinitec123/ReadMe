@@ -3,5 +3,5 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="infinitec.eleventh.remindme.MainActivity"
+    tools:context="infinitec.eleventh.remindme.activities.MainActivity"
     tools:ignore="MergeRootFrame" />

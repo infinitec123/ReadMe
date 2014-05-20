@@ -1,19 +1,9 @@
 
 package infinitec.eleventh.remindme.utils;
 
-import android.content.Context;
-import android.graphics.Point;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.app.NotificationManager;
 import android.os.Looper;
-import android.view.View;
-
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Map;
+import android.support.v4.app.NotificationCompat;
 
 /**
  * @author Sharath Pandeshwar Utility methods
@@ -31,5 +21,5 @@ public class Utils {
     public static boolean isMainThread() {
         return Looper.getMainLooper() == Looper.myLooper();
     }
-
+    
 }

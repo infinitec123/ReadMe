@@ -1,6 +1,10 @@
 
-package infinitec.eleventh.remindme;
+package infinitec.eleventh.remindme.activities;
 
+import infinitec.eleventh.remindme.R;
+import infinitec.eleventh.remindme.R.id;
+import infinitec.eleventh.remindme.R.layout;
+import infinitec.eleventh.remindme.R.menu;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
