@@ -20,6 +20,7 @@ import android.support.v4.app.NotificationCompat;
 public class ProcessSMSTextService extends Service {
 
     private NotificationManager mNotificationManager;
+    
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -62,6 +63,7 @@ public class ProcessSMSTextService extends Service {
         PendingIntent piDismiss = PendingIntent.getService(this, 0, dismissIntent, 0);
 
         Intent acceptIntent = new Intent(this, MakeCalendarEntryService.class);
+        acceptIntent.putExtra(AppConstants.SMS_SERVICE_SMS_TEXT, message);
         acceptIntent.setAction(AppConstants.ACTION_ACCEPT);
         PendingIntent piAccept = PendingIntent.getService(this, 0, acceptIntent, 0);
 
