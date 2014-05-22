@@ -13,6 +13,8 @@ import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 
 /**
  * @author Sharath Pandeshwar
@@ -29,27 +31,28 @@ public class MakeCalendarEntryService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String action = intent.getAction();
-        Logger.v(TAG, "Received action:" + action);
+        
+        Bundle extras = intent.getExtras();
         cancelNotification(AppConstants.NOTIFICATION_ID);
-        if (action.contentEquals(AppConstants.ACTION_ACCEPT)) {
+        if(extras!=null){
+            //It means 'Yes' button was chosen
+            Log.v(TAG, "Bundle non empty");
             int calendarid = myCalendarUtils.getDefaultCalendarID();
             if (calendarid == -1) {
                 Logger.v(TAG, "Calendar Account Not Found!");
                 return;
             }
-            /*
-             * TODO remove dummy data
-             */
-            String title = "Test Event";
-            String description = "Test Description";
-            if(intent.hasExtra(AppConstants.SMS_SERVICE_SMS_TEXT)){
-                description = intent.getStringExtra(AppConstants.SMS_SERVICE_SMS_TEXT);
-            }
+            
+            String description = extras.getString(AppConstants.SMS_SERVICE_SMS_TEXT);
+            String title = "RemindMe: " + extras.getString(AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER);
             
             Date eventDate;
             try {
-                eventDate = new SimpleDateFormat("MM/dd/yyyy").parse("05/21/2014");
+                
+                /*
+                 * TODO remove below hard codings
+                 */
+                eventDate = new SimpleDateFormat("MM/dd/yyyy").parse("05/22/2014");
                 int start_hour = 9;
                 int start_min = 00;
                 int end_hour = 9;
@@ -62,8 +65,10 @@ public class MakeCalendarEntryService extends IntentService {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }
-    }
+            
+        } 
+        } 
+
 
     /**
      * Cancels a notification

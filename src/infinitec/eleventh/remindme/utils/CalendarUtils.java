@@ -47,7 +47,6 @@ public class CalendarUtils {
                             "_id", "displayName"
                     }, null, null, null);
         } else if (android.os.Build.VERSION.SDK_INT > 14) {
-            Log.v("Calendar", "Starting to get calendars-2");
             eventsUri = Uri.parse("content://com.android.calendar/events");
             remainderUri = Uri.parse("content://com.android.calendar/reminders");
             cursor = context.getContentResolver().query(

@@ -12,7 +12,8 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 /**
- * @author Abhilasha Singh This {@code BroadcastReceiver} listens to incoming
+ * @author Abhilasha Singh 
+ * This {@code BroadcastReceiver} listens to incoming
  *         SMS Messages.
  */
 public class SMSReceiver extends BroadcastReceiver {
@@ -43,7 +44,7 @@ public class SMSReceiver extends BroadcastReceiver {
                 }
             }
         } catch (Exception e) {
-            Log.e(TAG, "Exception at SMSReceiver" + e);
+            Logger.v(TAG, "Exception at SMSReceiver" + e);
         }
     } // End of onReceive
 }

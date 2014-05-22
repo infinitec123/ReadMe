@@ -11,6 +11,7 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
@@ -31,6 +32,7 @@ public class ProcessSMSTextService extends Service {
 
         // Test short circuit
         requestToMakeCalendarEntryNotificationBuilder(intent.getExtras().getString(
+                AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER), intent.getExtras().getString(
                 AppConstants.SMS_SERVICE_SMS_TEXT));
         return Service.START_NOT_STICKY;
     }
@@ -45,7 +47,7 @@ public class ProcessSMSTextService extends Service {
      * If the message has a DATE and a new pattern is detected send out a
      * notification
      */
-    private void requestToMakeCalendarEntryNotificationBuilder(final String message) {
+    private void requestToMakeCalendarEntryNotificationBuilder(final String number, final String message) {
 
         Intent notifyIntent = new Intent(this, AcceptDetailsForCalendarActivity.class);
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -63,8 +65,11 @@ public class ProcessSMSTextService extends Service {
         PendingIntent piDismiss = PendingIntent.getService(this, 0, dismissIntent, 0);
 
         Intent acceptIntent = new Intent(this, MakeCalendarEntryService.class);
-        acceptIntent.putExtra(AppConstants.SMS_SERVICE_SMS_TEXT, message);
-        acceptIntent.setAction(AppConstants.ACTION_ACCEPT);
+        Bundle entryDetailsBundle = new Bundle();
+        entryDetailsBundle.putString(AppConstants.SMS_SERVICE_SMS_TEXT, message);
+        entryDetailsBundle.putString(AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER, number);
+        acceptIntent.putExtras(entryDetailsBundle);
+        
         PendingIntent piAccept = PendingIntent.getService(this, 0, acceptIntent, 0);
 
         NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this);
