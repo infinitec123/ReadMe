@@ -10,5 +10,11 @@
     
     <string name="notification_yes">Yes</string>
     <string name="notification_no">No</string>
+    
+    <string-array name="indicators">
+        <item>due</item>
+        <item>bill</item>
+        <item>payment</item>
+    </string-array>
 
 </resources>

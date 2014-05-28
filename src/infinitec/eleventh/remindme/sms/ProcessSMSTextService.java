@@ -4,6 +4,8 @@ package infinitec.eleventh.remindme.sms;
 import infinitec.eleventh.remindme.action.MakeCalendarEntryService;
 import infinitec.eleventh.remindme.activities.AcceptDetailsForCalendarActivity;
 import infinitec.eleventh.remindme.utils.AppConstants;
+import infinitec.eleventh.remindme.utils.Logger;
+import infinitec.eleventh.remindme.utils.RegExUtils;
 import infinitec.eleventh.remindme.R;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,19 +23,26 @@ import android.support.v4.app.NotificationCompat;
 public class ProcessSMSTextService extends Service {
 
     private NotificationManager mNotificationManager;
-    
+    private static final String TAG = "ProcessSMSTextService";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         /*
-         * TODO 1. Extract Date and title 2. Make a calendar entry for 'known
-         * pattern' 3. Send out a notification for 'unknown pattern'
+         * TODO 
+         * 1. Extract Date and title 
+         * 2. Make a calendar entry for 'known pattern' 
+         * 3. Send out a notification for 'unknown pattern'
          */
 
-        // Test short circuit
-        requestToMakeCalendarEntryNotificationBuilder(intent.getExtras().getString(
-                AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER), intent.getExtras().getString(
-                AppConstants.SMS_SERVICE_SMS_TEXT));
+        String messageSender = intent.getExtras().getString(
+                AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER);
+        String messageContent = intent.getExtras().getString(AppConstants.SMS_SERVICE_SMS_TEXT);
+
+        if (RegExUtils.isAnyIndicatorsPresentInText(messageContent,
+                getResources().getStringArray(R.array.indicators))
+                && (RegExUtils.isDatePresentInText(messageContent))) {
+            requestToMakeCalendarEntryNotificationBuilder(messageSender, messageContent);
+        }
         return Service.START_NOT_STICKY;
     }
 
@@ -47,7 +56,8 @@ public class ProcessSMSTextService extends Service {
      * If the message has a DATE and a new pattern is detected send out a
      * notification
      */
-    private void requestToMakeCalendarEntryNotificationBuilder(final String number, final String message) {
+    private void requestToMakeCalendarEntryNotificationBuilder(final String number,
+            final String message) {
 
         Intent notifyIntent = new Intent(this, AcceptDetailsForCalendarActivity.class);
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -69,8 +79,8 @@ public class ProcessSMSTextService extends Service {
         entryDetailsBundle.putString(AppConstants.SMS_SERVICE_SMS_TEXT, message);
         entryDetailsBundle.putString(AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER, number);
         acceptIntent.putExtras(entryDetailsBundle);
-        
-        PendingIntent piAccept = PendingIntent.getService(this, 0, acceptIntent, 0);
+
+        PendingIntent piAccept = PendingIntent.getService(this, 0, acceptIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder(this);
         mNotificationBuilder

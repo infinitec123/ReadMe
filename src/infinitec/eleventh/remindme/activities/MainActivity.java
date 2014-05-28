@@ -5,6 +5,7 @@ import infinitec.eleventh.remindme.R;
 import infinitec.eleventh.remindme.R.id;
 import infinitec.eleventh.remindme.R.layout;
 import infinitec.eleventh.remindme.R.menu;
+import infinitec.eleventh.remindme.utils.RegExUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -28,11 +29,17 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        //String testString = "Namaste! Your bill dated 12 /Apr/ 2314  of Rs 1589  for your airtel fixedline 08042132154  is due on 01-May-14. ignore if paid.";
+        //String testString = "You have 1 missed call(s) from +918867770562 .Last call: 21/ 05/5614 20:17 .Block unwanted calls ! Dial  *323# TollFree";
+        
+        //RegExUtils.isDatePresentInText(testString);
+        
+        
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;

@@ -1,17 +1,15 @@
 
 package infinitec.eleventh.remindme.action;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import infinitec.eleventh.remindme.R;
+import java.util.ArrayList;
+import infinitec.eleventh.remindme.models.OurDate;
 import infinitec.eleventh.remindme.utils.AppConstants;
 import infinitec.eleventh.remindme.utils.CalendarUtils;
 import infinitec.eleventh.remindme.utils.Logger;
+import infinitec.eleventh.remindme.utils.RegExUtils;
 import android.app.IntentService;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,44 +29,57 @@ public class MakeCalendarEntryService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        
+        int date;
+        int month;
+        int year;
         Bundle extras = intent.getExtras();
         cancelNotification(AppConstants.NOTIFICATION_ID);
-        if(extras!=null){
-            //It means 'Yes' button was chosen
-            Log.v(TAG, "Bundle non empty");
+        if (extras != null) {
+            // It means 'Yes' button was chosen
+
+            String message_body = extras.getString(AppConstants.SMS_SERVICE_SMS_TEXT);
+            String message_title = "RemindMe: "
+                    + extras.getString(AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER);
+            ArrayList<OurDate> datesInMessage = RegExUtils.getDatesInText(message_body);
+            if (datesInMessage.size() == 0 || datesInMessage == null) {
+                Logger.v(TAG, "No date found. Ignoring!");
+            }
+
+            Log.v(TAG, "Printing Received Dates");
+            for (int i = 0; i < datesInMessage.size(); i++) {
+                Logger.v(TAG, datesInMessage.get(i).toString());
+            }
+            /*
+             * TODO remove assumption that there would be only two dates
+             */
+            year = datesInMessage.get(0).getYear();
+            month = datesInMessage.get(0).getMonth();
+            date = datesInMessage.get(0).getDate();
+            if ((datesInMessage.size() > 1)
+                    && (datesInMessage.get(1).compareTo(datesInMessage.get(0)) > 0)) {
+                year = datesInMessage.get(1).getYear();
+                month = datesInMessage.get(1).getMonth();
+                date = datesInMessage.get(1).getDate();
+            }
+            Logger.v(TAG, "I want entry made on:" + month + "/" + date + "/" + year);
+
             int calendarid = myCalendarUtils.getDefaultCalendarID();
             if (calendarid == -1) {
                 Logger.v(TAG, "Calendar Account Not Found!");
                 return;
             }
-            
-            String description = extras.getString(AppConstants.SMS_SERVICE_SMS_TEXT);
-            String title = "RemindMe: " + extras.getString(AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER);
-            
-            Date eventDate;
-            try {
-                
-                /*
-                 * TODO remove below hard codings
-                 */
-                eventDate = new SimpleDateFormat("MM/dd/yyyy").parse("05/22/2014");
-                int start_hour = 9;
-                int start_min = 00;
-                int end_hour = 9;
-                int end_min = 15;
-                boolean isFullDay = true;
 
-                myCalendarUtils.makeCalendarEntry(calendarid, title, description, eventDate,
-                        start_hour, start_min, end_hour, end_min, isFullDay);
+            int start_hour = 9;
+            int start_min = 00;
+            int end_hour = 9;
+            int end_min = 15;
+            boolean isFullDay = true;
 
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            
-        } 
-        } 
+            myCalendarUtils.makeCalendarEntry(calendarid, message_title, message_body, date, month,
+                    year, start_hour, start_min, end_hour, end_min, isFullDay);
 
+        }
+    }
 
     /**
      * Cancels a notification

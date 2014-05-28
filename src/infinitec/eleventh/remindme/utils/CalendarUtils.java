@@ -66,7 +66,7 @@ public class CalendarUtils {
     } // End of getDefaultCalendarID()
 
     public void makeCalendarEntry(final int calendarid, String title, String description,
-            Date eventDate, int start_hour, int start_min,
+            int date, int month, int year, int start_hour, int start_min,
             int end_hour, int end_min, boolean isFullDay) {
 
         long startCalTime;
@@ -74,7 +74,13 @@ public class CalendarUtils {
         TimeZone timeZone = TimeZone.getDefault();
         Calendar calendar = Calendar.getInstance();
 
-        calendar.setTime(eventDate);
+        calendar.set(Calendar.YEAR, year);
+        /*
+         * Calendar entry is between 0-11
+         */
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, date);
+        Logger.v(TAG, "Trying to make calendar entry on " + calendar.toString());
         calendar.set(Calendar.HOUR_OF_DAY, start_hour);
         calendar.set(Calendar.MINUTE, start_min);
         startCalTime = calendar.getTimeInMillis();
