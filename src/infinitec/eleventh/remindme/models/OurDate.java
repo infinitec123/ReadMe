@@ -3,13 +3,10 @@ package infinitec.eleventh.remindme.models;
 
 import android.annotation.SuppressLint;
 
-import java.util.Date;
-import java.util.Locale;
-
 /**
  * @author Sharath Pandeshwar
  */
-public class OurDate  {
+public class OurDate {
     private int date;
     private int month;
     private int year;
@@ -130,11 +127,6 @@ public class OurDate  {
                 this.month = 12;
             }
         }
-    }
-    
-    
-    public static Date getDate(OurDate d){
-        return new Date(d.year, d.month-1, d.date);
     }
 
     public String toString() {

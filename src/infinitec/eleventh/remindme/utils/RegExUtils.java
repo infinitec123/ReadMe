@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.util.Log;
 
 /**
  * @author Sharath Pandeshwar Utility class to extract 'information' from an SMS
@@ -33,14 +32,7 @@ public class RegExUtils {
     }
 
     public static boolean isDatePresentInText(final String message) {
-
         Matcher matcher;
-        int date;
-        int month;
-        int year;
-        String dateString;
-        String monthString;
-        String yearString;
 
         /*
          * Pattern 1: 
@@ -55,9 +47,6 @@ public class RegExUtils {
         matcher = pattern1.matcher(message);
 
         if (matcher.find()) {
-            dateString = matcher.group(1);
-            monthString = matcher.group(2);
-            yearString = matcher.group(3);
             return true;
         } 
         
@@ -74,9 +63,6 @@ public class RegExUtils {
         matcher = pattern2.matcher(message);
 
         while (matcher.find()) {
-            dateString = matcher.group(1);
-            monthString = matcher.group(2);
-            yearString = matcher.group(3);
             return true;
         } 
         return false;
@@ -91,9 +77,6 @@ public class RegExUtils {
     public static ArrayList<OurDate> getDatesInText(String message){
         ArrayList<OurDate> datesList = new ArrayList<OurDate>();
         Matcher matcher;
-        int date;
-        int month;
-        int year;
         String dateString;
         String monthString;
         String yearString;

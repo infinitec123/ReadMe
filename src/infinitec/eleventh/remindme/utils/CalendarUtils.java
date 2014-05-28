@@ -1,20 +1,16 @@
 
 package infinitec.eleventh.remindme.utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
+import java.util.Calendar;
+import java.util.TimeZone;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Reminders;
-import android.util.Log;
-import android.widget.Toast;
+
 
 /**
  * @author Abhilasha Singh Utility class to deal with Calendar
@@ -102,7 +98,20 @@ public class CalendarUtils {
             event.put(CalendarContract.Events.ALL_DAY, true);
         }
         Uri uri = context.getContentResolver().insert(eventsUri, event);
-        Logger.v(TAG, "Successfully inserted at " + uri.toString());
+        long eventID = Long.parseLong(uri.getLastPathSegment());
+        Logger.v(TAG, "Successfully inserted at " + uri.toString() + "Event ID: " + eventID);
+
+        /*
+         * TODO 1. externallize process of getting remainderuri 
+         * 2. Remove the hard coded remainder value
+         */
+
+        ContentValues reminders = new ContentValues();
+        reminders.put(Reminders.EVENT_ID, eventID);
+        reminders.put(Reminders.METHOD, Reminders.METHOD_ALERT);
+        reminders.put(Reminders.MINUTES, 1440);
+        context.getContentResolver().insert(remainderUri, reminders);
+
     }
 
 }

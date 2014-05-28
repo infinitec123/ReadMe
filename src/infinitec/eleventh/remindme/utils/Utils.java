@@ -1,9 +1,8 @@
 
 package infinitec.eleventh.remindme.utils;
 
-import android.app.NotificationManager;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
+
 
 /**
  * @author Sharath Pandeshwar Utility methods
