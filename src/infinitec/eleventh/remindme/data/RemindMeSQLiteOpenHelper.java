@@ -1,6 +1,8 @@
 
 package infinitec.eleventh.remindme.data;
 
+import infinitec.eleventh.remindme.utils.Logger;
+
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -114,10 +116,10 @@ public class RemindMeSQLiteOpenHelper extends SQLiteOpenHelper {
      * @return The row Id of the newly inserted row, or -1 if unable to insert
      */
     long insert(final String table, final String nullColumnHack,
-                    final ContentValues values, final boolean autoNotify) {
-
+                    final ContentValues values) {
         final SQLiteDatabase database = getWritableDatabase();
         final long insertRowId = database.insert(table, nullColumnHack, values);
+        Logger.v(TAG, "Inserted at " + insertRowId);
         return insertRowId;
     }
     

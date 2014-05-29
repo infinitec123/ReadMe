@@ -274,8 +274,7 @@ public class RemindMeAsyncQueryHandler {
                 case INSERT: {
                     result.mInsertRowId = RemindMeSQLiteOpenHelper
                             .getInstance(RemindMeApplication.getStaticContext())
-                            .insert(task.mTableName, task.mNullColumnHack, task.mValues,
-                                    task.mAutoNotify);
+                            .insert(task.mTableName, task.mNullColumnHack, task.mValues);
                     break;
                 }
 

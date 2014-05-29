@@ -14,7 +14,7 @@ public class AppConstants {
      * @author Sharath Pandeshwar
      */
     public static interface QueryTokens {
-        public static final int LOAD_SOMETHING = 1;
+        public static final int INSERT_PATTERN = 1;
     }
 
     //Notification Related

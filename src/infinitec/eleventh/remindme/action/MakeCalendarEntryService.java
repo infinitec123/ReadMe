@@ -1,16 +1,23 @@
 
 package infinitec.eleventh.remindme.action;
 
-
 import java.util.ArrayList;
+
+import infinitec.eleventh.remindme.data.DBInterface;
+import infinitec.eleventh.remindme.data.DatabaseColumns;
+import infinitec.eleventh.remindme.data.TablePatterns;
+import infinitec.eleventh.remindme.data.DBInterface.AsyncDbQueryCallback;
 import infinitec.eleventh.remindme.models.OurDate;
 import infinitec.eleventh.remindme.utils.AppConstants;
+import infinitec.eleventh.remindme.utils.AppConstants.QueryTokens;
 import infinitec.eleventh.remindme.utils.CalendarUtils;
 import infinitec.eleventh.remindme.utils.Logger;
 import infinitec.eleventh.remindme.utils.RegExUtils;
 import android.app.IntentService;
 import android.app.NotificationManager;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -66,7 +73,10 @@ public class MakeCalendarEntryService extends IntentService {
             int calendarid = myCalendarUtils.getDefaultCalendarID();
             if (calendarid == -1) {
                 Logger.v(TAG, "Calendar Account Not Found!");
-                return;
+                /*
+                 * TODO Uncomment
+                 */
+                // return;
             }
 
             int start_hour = 9;
@@ -75,8 +85,23 @@ public class MakeCalendarEntryService extends IntentService {
             int end_min = 15;
             boolean isFullDay = true;
 
-            myCalendarUtils.makeCalendarEntry(calendarid, message_title, message_body, date, month,
-                    year, start_hour, start_min, end_hour, end_min, isFullDay);
+            final ContentValues values = new ContentValues();
+            values.put(DatabaseColumns.PATTERN_NAME,
+                    extras.getString(AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER));
+            values.put(DatabaseColumns.SMS_SENDER_NUMBER,
+                    extras.getString(AppConstants.SMS_SERVICE_SENDER_PHONE_NUMBER));
+            values.put(DatabaseColumns.SMS_BODY,
+                    extras.getString(AppConstants.SMS_SERVICE_SMS_TEXT));
+            values.put(DatabaseColumns.STATUS, 1);
+
+            DBInterface.insert(TablePatterns.NAME, null, values);
+
+            /*
+             * TODO Uncomment
+             */
+            // myCalendarUtils.makeCalendarEntry(calendarid, message_title,
+            // message_body, date, month,
+            // year, start_hour, start_min, end_hour, end_min, isFullDay);
 
         }
     }
@@ -92,5 +117,4 @@ public class MakeCalendarEntryService extends IntentService {
                 getSystemService(NOTIFICATION_SERVICE);
         mNotificationManager.cancel(notification_id);
     }
-
 }

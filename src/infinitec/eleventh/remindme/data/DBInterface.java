@@ -35,11 +35,11 @@ public class DBInterface {
      * @return The row Id if inserted, -1 if not
      */
     public static long insert(final String table, final String nullColumnHack,
-                    final ContentValues values, final boolean autoNotify) {
+                    final ContentValues values) {
         throwIfOnMainThread();
         return RemindMeSQLiteOpenHelper
                         .getInstance(RemindMeApplication.getStaticContext())
-                        .insert(table, nullColumnHack, values, autoNotify);
+                        .insert(table, nullColumnHack, values);
 
     }
     

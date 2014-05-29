@@ -25,11 +25,11 @@ public class TablePatterns {
                                 String.format(Locale.US, SQLConstants.DATA_TEXT,
                                         DatabaseColumns.PATTERN_NAME, ""),
                                 String.format(Locale.US, SQLConstants.DATA_TEXT,
-                                        DatabaseColumns.SENDER, ""),
+                                        DatabaseColumns.SMS_SENDER_NUMBER, ""),
                                 String.format(Locale.US, SQLConstants.DATA_TEXT,
-                                        DatabaseColumns.DATE_PATTERN, ""),
+                                        DatabaseColumns.SMS_BODY, ""),
                                 String.format(Locale.US, SQLConstants.DATA_INTEGER,
-                                        DatabaseColumns.STATUS, ""),
+                                        DatabaseColumns.STATUS, 0),
                         });
 
         Log.d(TAG, columnDef);

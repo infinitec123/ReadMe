@@ -16,12 +16,13 @@ public interface DatabaseColumns {
      * Sender name/number
      */
 
-    public static final String SENDER = "sender";
-
+    public static final String SMS_SENDER_NUMBER = "sms_sender_number";
+    
     /*
-     * What is the pattern of date that should be expected. Possible types:
+     * Message body
      */
-    public static final String DATE_PATTERN = "date_pattern";
+    public static final String SMS_BODY = "sms_body";
+    
 
     /*
      * Weather user has chosen to Add the event to Calendar or not. Will hold a
