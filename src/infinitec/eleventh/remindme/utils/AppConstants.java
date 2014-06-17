@@ -27,5 +27,7 @@ public class AppConstants {
     // Bundle Keys
     public static final String SMS_SERVICE_SENDER_PHONE_NUMBER = "sender_number";
     public static final String SMS_SERVICE_SMS_TEXT = "sms_text";
-    
+
+    // List Of Words For Validating An Incoming Message
+    public static final String[] WORDS = {"due","payment","date"};     
 }
