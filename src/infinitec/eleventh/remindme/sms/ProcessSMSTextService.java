@@ -40,6 +40,7 @@ public class ProcessSMSTextService extends Service {
                 && (RegExUtils.isDatePresentInText(messageContent))) {
             requestToMakeCalendarEntryNotificationBuilder(messageSender, messageContent);
         }
+
         return Service.START_NOT_STICKY;
     }
 

@@ -96,12 +96,9 @@ public class MakeCalendarEntryService extends IntentService {
 
             DBInterface.insert(TablePatterns.NAME, null, values);
 
-            /*
-             * TODO Uncomment
-             */
-            // myCalendarUtils.makeCalendarEntry(calendarid, message_title,
-            // message_body, date, month,
-            // year, start_hour, start_min, end_hour, end_min, isFullDay);
+            myCalendarUtils.makeCalendarEntry(calendarid, message_title,
+                    message_body, date, month,
+                    year, start_hour, start_min, end_hour, end_min, isFullDay);
 
         }
     }
